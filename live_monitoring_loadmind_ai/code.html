@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoadMind AI - Real-Time Monitoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@500&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffffff",
+                        "on-secondary-container": "#00311f",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary-fixed-variant": "#004397",
+                        "surface-container": "#1c1f27",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-container-low": "#181b23",
+                        "tertiary-container": "#a66900",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-container": "#ffffff",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c1c6d7",
+                        "inverse-surface": "#e0e2ed",
+                        "background": "#10131b",
+                        "secondary-fixed-dim": "#4edea3",
+                        "outline": "#8b90a0",
+                        "on-background": "#e0e2ed",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "error-container": "#93000a",
+                        "surface-tint": "#aec6ff",
+                        "secondary": "#4edea3",
+                        "on-primary": "#002e6b",
+                        "surface-container-highest": "#32353d",
+                        "surface": "#10131b",
+                        "primary-fixed-dim": "#aec6ff",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-variant": "#32353d",
+                        "on-secondary-fixed": "#002113",
+                        "on-tertiary": "#472a00",
+                        "inverse-on-surface": "#2d3039",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#003824",
+                        "surface-container-lowest": "#0b0e15",
+                        "on-tertiary-fixed": "#2a1700",
+                        "inverse-primary": "#0059c5",
+                        "surface-dim": "#10131b",
+                        "surface-container-high": "#272a32",
+                        "secondary-container": "#00a572",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "primary-container": "#0070f3",
+                        "outline-variant": "#414754",
+                        "surface-bright": "#363942",
+                        "on-surface": "#e0e2ed",
+                        "on-primary-fixed": "#001a43",
+                        "primary": "#aec6ff",
+                        "tertiary": "#ffb95f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "code-sm": ["12px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(111, 251, 190, 0.7); }
+            70% { transform: scale(1); opacity: 0; box-shadow: 0 0 0 10px rgba(111, 251, 190, 0); }
+            100% { transform: scale(0.8); opacity: 0; box-shadow: 0 0 0 0 rgba(111, 251, 190, 0); }
+        }
+        .data-card {
+            background-color: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.5rem;
+        }
+        .chart-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden selection:bg-primary-container selection:text-on-primary-container h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-4 gap-unit docked left-0 w-64 bg-surface-container-low border-r border-outline-variant z-40">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div>
+<h1 class="font-display text-headline-md font-bold text-primary tracking-tight">LoadMind AI</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">V1.2.4-stable</p>
+</div>
+</div>
+<ul class="flex-1 space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-container rounded-lg Active: translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+<span class="font-label-md text-label-md font-bold">Tests</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">timeline</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">psychology</span>
+<span class="font-label-md text-label-md">Insights</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto space-y-4">
+<div class="data-card p-4 flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Performance Health</span>
+<div class="relative w-24 h-24 mb-2 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path class="text-secondary-fixed" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-md text-headline-md font-bold text-secondary-fixed">85</span>
+</div>
+</div>
+</div>
+<button class="w-full py-2 px-4 rounded border border-primary text-primary font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors duration-200">
+                Upgrade Plan
+            </button>
+<ul class="flex justify-between px-2 pt-4 border-t border-outline-variant">
+<li>
+<a class="text-on-surface-variant hover:text-on-surface" href="#" title="Documentation">
+<span class="material-symbols-outlined text-lg">menu_book</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:text-on-surface" href="#" title="Support">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 z-50 bg-background border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight flex items-center gap-2">
+                    Production Checkout Stress Test
+                    <span class="flex items-center gap-1 text-secondary-fixed font-label-md text-label-md ml-2 px-2 py-1 rounded bg-secondary-fixed/10 border border-secondary-fixed/20">
+<div class="w-2 h-2 rounded-full bg-secondary-fixed pulse-ring"></div>
+                        Running
+                    </span>
+</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 p-2 rounded-full Active: scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 p-2 rounded-full Active: scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-on-surface-variant">Project: Production-v1</span>
+<button class="bg-error/10 text-error border border-error/30 hover:bg-error hover:text-on-error font-label-md text-label-md px-4 py-1.5 rounded transition-colors duration-200 flex items-center gap-1 Active: scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-sm">stop</span>
+                        Stop Test
+                    </button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A macro shot of a sleek, abstract geometric sculpture in dark grey and neon blue, acting as a modern, anonymous avatar placeholder against a deep black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-k8EzARKblTICxm6e7WY3eyl8NxjWlM-gKKpcG1t_gr1m4cGFzdqne-iOlhqBlpbG5JSDZHx_j-lH7eGBqiRlJtkEVWaJ_tJ3jn07s52J-066Vu14tpCn4Dj8UejKdA6D7JJESTi1m8CFqUcJavBlNICLJemufPM2FJFT_T7wlgd9R7IND5SGnBN5PXEWNWIkm4m1Z2ztWPLbGK03zw13xJsh4-WmZ0pFAI6usH37WnY-nI3CQYMT-6ifA-It5rsRl8fhQx9Iund5"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-margin-desktop space-y-6">
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Response Times -->
+<div class="data-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Response Times</h3>
+<span class="material-symbols-outlined text-outline text-sm">timer</span>
+</div>
+<div class="flex-1 relative chart-grid rounded min-h-[200px] overflow-hidden flex items-end">
+<!-- Abstract Chart Representation -->
+<div class="absolute bottom-0 w-full h-full flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- p50 -->
+<path d="M0 80 Q 20 60 40 75 T 80 50 T 100 60 L100 100 L0 100 Z" fill="rgba(174, 198, 255, 0.05)"></path>
+<path d="M0 80 Q 20 60 40 75 T 80 50 T 100 60" fill="none" stroke="#aec6ff" stroke-width="1.5"></path>
+<!-- p95 -->
+<path d="M0 50 Q 20 40 40 60 T 80 30 T 100 45" fill="none" stroke="#ffb95f" stroke-dasharray="4" stroke-width="1.5"></path>
+<!-- p99 -->
+<path d="M0 30 Q 20 10 40 40 T 80 15 T 100 25" fill="none" stroke="#ffb4ab" stroke-width="1.5"></path>
+</svg>
+</div>
+<div class="absolute top-2 right-2 flex flex-col gap-1 text-[10px] font-code-sm">
+<div class="flex items-center gap-1"><div class="w-2 h-[1px] bg-primary"></div> p50: 120ms</div>
+<div class="flex items-center gap-1"><div class="w-2 h-[1px] bg-tertiary"></div> p95: 340ms</div>
+<div class="flex items-center gap-1"><div class="w-2 h-[1px] bg-error"></div> p99: 890ms</div>
+</div>
+</div>
+</div>
+<!-- Requests Per Second -->
+<div class="data-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Requests / Sec</h3>
+<span class="material-symbols-outlined text-outline text-sm">bolt</span>
+</div>
+<div class="flex items-end gap-4 mb-2">
+<span class="font-display text-4xl font-bold text-secondary-fixed">1,245</span>
+<span class="font-code-sm text-code-sm text-secondary-fixed-dim mb-1">↑ 12%</span>
+</div>
+<div class="flex-1 relative chart-grid rounded min-h-[150px] overflow-hidden flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 90 L 10 85 L 20 60 L 30 65 L 40 40 L 50 45 L 60 20 L 70 30 L 80 10 L 90 15 L 100 5 L100 100 L0 100 Z" fill="rgba(111, 251, 190, 0.05)"></path>
+<path d="M0 90 L 10 85 L 20 60 L 30 65 L 40 40 L 50 45 L 60 20 L 70 30 L 80 10 L 90 15 L 100 5" fill="none" stroke="#6ffbbe" stroke-width="1.5"></path>
+</svg>
+</div>
+</div>
+<!-- Concurrent Users -->
+<div class="data-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Virtual Users</h3>
+<span class="material-symbols-outlined text-outline text-sm">group</span>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<span class="block font-code-sm text-outline mb-1">Target</span>
+<span class="font-headline-md text-on-surface">5,000</span>
+</div>
+<div class="text-right">
+<span class="block font-code-sm text-outline mb-1">Actual</span>
+<span class="font-headline-md text-primary">4,892</span>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 97%;"></div>
+</div>
+</div>
+<!-- Error Breakdown -->
+<div class="data-card p-4 flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Error Rate (0.8%)</h3>
+<span class="material-symbols-outlined text-outline text-sm">warning</span>
+</div>
+<div class="flex-1 flex flex-col justify-center gap-3">
+<div class="flex items-center gap-3">
+<span class="font-code-sm text-on-surface-variant w-8">5xx</span>
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 45%;"></div>
+</div>
+<span class="font-code-sm text-error">45%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-code-sm text-on-surface-variant w-8">4xx</span>
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim" style="width: 35%;"></div>
+</div>
+<span class="font-code-sm text-tertiary-fixed-dim">35%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-code-sm text-on-surface-variant w-8">T/O</span>
+<div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-outline" style="width: 20%;"></div>
+</div>
+<span class="font-code-sm text-outline">20%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Terminal -->
+<div class="data-card flex flex-col border-t-0 border-x-0 border-b-0 bg-surface-container-lowest h-64 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-between px-4 py-2 bg-surface-container-low border-y border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">terminal</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Live Logs</span>
+</div>
+<div class="flex gap-2">
+<button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+<button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined text-sm">pause</span></button>
+</div>
+</div>
+<div class="flex-1 p-4 overflow-y-auto font-code-sm text-code-sm text-outline space-y-1 scrollbar-hide" id="terminal-output">
+<div class="text-primary-fixed-dim">[INFO] 10:45:01.234 | Worker 14 | Initializing request batch...</div>
+<div>[REQ]  10:45:01.235 | GET /api/v1/checkout/cart (200 OK) - 112ms</div>
+<div>[REQ]  10:45:01.240 | GET /api/v1/products/list (200 OK) - 89ms</div>
+<div class="text-error">[ERR]  10:45:01.245 | POST /api/v1/checkout/pay (503 Service Unavailable) - 1502ms</div>
+<div>[REQ]  10:45:01.250 | GET /api/v1/user/profile (200 OK) - 45ms</div>
+<div class="text-tertiary-fixed-dim bg-tertiary-container/10 border-l-2 border-tertiary px-2 py-0.5 my-1">
+                        [AI-WARN] Anomaly Detected: Latency spike on /checkout/pay exceeds p99 baseline by 40%.
+                    </div>
+<div>[REQ]  10:45:01.255 | GET /api/v1/checkout/cart (200 OK) - 118ms</div>
+<div>[REQ]  10:45:01.260 | GET /api/v1/checkout/cart (200 OK) - 120ms</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Minimal script to simulate terminal scrolling
+        const terminal = document.getElementById('terminal-output');
+        setInterval(() => {
+            if(Math.random() > 0.3) {
+                const div = document.createElement('div');
+                const time = new Date().toISOString().substring(11, 23);
+                div.textContent = `[REQ]  ${time} | GET /api/v1/random/path (200 OK) - ${Math.floor(Math.random() * 200)}ms`;
+                terminal.appendChild(div);
+                terminal.scrollTop = terminal.scrollHeight;
+                if(terminal.children.length > 50) terminal.removeChild(terminal.firstChild);
+            }
+        }, 500);
+    </script>
+</body></html>

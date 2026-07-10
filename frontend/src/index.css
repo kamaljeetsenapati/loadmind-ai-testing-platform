@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-body-md text-body-md antialiased;
+  }
+}
+
+/* Custom scrollbar for technical dashboard feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0e15;
+}
+::-webkit-scrollbar-thumb {
+  background: #272a32;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #32353d;
+}
+
+/* Grid background effect */
+.grid-bg {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Bento Card glass effect */
+.bento-card {
+  background: rgba(28, 31, 39, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(65, 71, 84, 0.5);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bento-card:hover {
+  border-color: rgba(174, 198, 255, 0.3);
+  background: rgba(28, 31, 39, 0.8);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Glass panel style */
+.glass-panel {
+  background: rgba(28, 31, 39, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(65, 71, 84, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-active {
+  box-shadow: 0 0 25px rgba(0, 112, 243, 0.15);
+  border-color: rgba(0, 112, 243, 0.4);
+}
+
+/* Pulse animation for running state */
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+    box-shadow: 0 0 0 6px rgba(78, 222, 163, 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Graph line glow effects */
+.glow-text {
+  text-shadow: 0 0 10px rgba(174, 198, 255, 0.5);
+}
+
+/* Custom form inputs style */
+.input-field {
+  background: #181b23;
+  border: 1px solid rgba(65, 71, 84, 0.8);
+  color: #e0e2ed;
+  transition: all 0.15s ease-in-out;
+}
+.input-field:focus {
+  border-color: #aec6ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(174, 198, 255, 0.2);
+}
+
+/* Stepper styles */
+.step-completed .step-icon {
+  background: #00311f;
+  color: #4edea3;
+  border: 1px solid #005236;
+}
+.step-active .step-icon {
+  background: #004397;
+  color: #ffffff;
+  border: 1px solid #0070f3;
+  box-shadow: 0 0 10px rgba(0, 112, 243, 0.4);
+}
+.step-inactive .step-icon {
+  background: #1c1f27;
+  color: #c1c6d7;
+  border: 1px solid #414754;
+}
+
+/* Execution Type selector cards */
+.type-card {
+  transition: all 0.2s ease-in-out;
+}
+.type-card.selected {
+  border-color: #aec6ff;
+  background: rgba(174, 198, 255, 0.05);
+  box-shadow: 0 0 15px rgba(174, 198, 255, 0.1);
+}
+.type-card:hover:not(.selected) {
+  border-color: rgba(174, 198, 255, 0.3);
+  background: rgba(28, 31, 39, 0.8);
+}

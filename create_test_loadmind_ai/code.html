@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoadMind AI - Create Test</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#ffffff",
+                      "on-secondary-container": "#00311f",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-primary-fixed-variant": "#004397",
+                      "surface-container": "#1c1f27",
+                      "tertiary-fixed": "#ffddb8",
+                      "surface-container-low": "#181b23",
+                      "tertiary-container": "#a66900",
+                      "on-secondary-fixed-variant": "#005236",
+                      "on-primary-container": "#ffffff",
+                      "on-error": "#690005",
+                      "on-surface-variant": "#c1c6d7",
+                      "inverse-surface": "#e0e2ed",
+                      "background": "#10131b",
+                      "secondary-fixed-dim": "#4edea3",
+                      "outline": "#8b90a0",
+                      "on-background": "#e0e2ed",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "error-container": "#93000a",
+                      "surface-tint": "#aec6ff",
+                      "secondary": "#4edea3",
+                      "on-primary": "#002e6b",
+                      "surface-container-highest": "#32353d",
+                      "surface": "#10131b",
+                      "primary-fixed-dim": "#aec6ff",
+                      "error": "#ffb4ab",
+                      "primary-fixed": "#d8e2ff",
+                      "surface-variant": "#32353d",
+                      "on-secondary-fixed": "#002113",
+                      "on-tertiary": "#472a00",
+                      "inverse-on-surface": "#2d3039",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary": "#003824",
+                      "surface-container-lowest": "#0b0e15",
+                      "on-tertiary-fixed": "#2a1700",
+                      "inverse-primary": "#0059c5",
+                      "surface-dim": "#10131b",
+                      "surface-container-high": "#272a32",
+                      "secondary-container": "#00a572",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "primary-container": "#0070f3",
+                      "outline-variant": "#414754",
+                      "surface-bright": "#363942",
+                      "on-surface": "#e0e2ed",
+                      "on-primary-fixed": "#001a43",
+                      "primary": "#aec6ff",
+                      "tertiary": "#ffb95f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "gutter": "16px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "display": ["Inter"],
+                      "label-md": ["Geist"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "code-sm": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-md": ["13px", {"lineHeight": "1.0", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "code-sm": ["12px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background-color: rgba(17, 17, 17, 0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+        }
+        .step-active .step-icon { background-color: theme('colors.primary'); color: theme('colors.on-primary'); box-shadow: 0 0 15px rgba(174, 198, 255, 0.3); }
+        .step-inactive .step-icon { background-color: theme('colors.surface-container-high'); color: theme('colors.on-surface-variant'); border: 1px solid theme('colors.outline-variant'); }
+        .step-completed .step-icon { background-color: theme('colors.secondary-container'); color: theme('colors.on-secondary-container'); }
+        
+        .type-card:hover { border-color: theme('colors.primary'); box-shadow: 0 0 15px rgba(174, 198, 255, 0.1); }
+        .type-card.selected { border-color: theme('colors.primary'); background-color: rgba(174, 198, 255, 0.05); }
+        
+        .input-field {
+            background-color: theme('colors.surface-container');
+            border: 1px solid theme('colors.outline-variant');
+            color: theme('colors.on-surface');
+        }
+        .input-field:focus {
+            border-color: theme('colors.primary');
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(174, 198, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-screen p-4 gap-unit docked left-0 h-full w-64 border-r border-outline-variant bg-surface-container-low hidden md:flex shrink-0">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(174,198,255,0.2)]">
+<span class="material-symbols-outlined text-on-primary text-xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div>
+<h1 class="font-display text-headline-md font-bold text-primary truncate">LoadMind AI</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">V1.2.4-stable</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-container rounded-lg Active: translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">speed</span>
+<span class="font-label-md text-label-md font-bold">Tests</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined text-[20px]">timeline</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-label-md text-label-md">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-4">
+<button class="w-full py-2 bg-surface-container-high border border-outline-variant rounded text-primary font-label-md text-label-md hover:bg-surface-container-highest transition-colors">
+                Upgrade Plan
+            </button>
+<div class="flex flex-col gap-1 border-t border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Documentation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<div class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 z-50 bg-background border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-4">
+<!-- Mobile menu trigger -->
+<button class="md:hidden text-on-surface-variant p-1">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md text-on-surface hidden md:block">Create New Test</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span>
+<input class="bg-transparent border-none text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none w-48" placeholder="Search tests..." type="text"/>
+</div>
+<div class="flex items-center gap-4 border-r border-outline-variant pr-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-body-md text-body-md text-on-surface-variant hidden md:block">Project: Production-v1</span>
+<button class="px-4 py-2 bg-primary text-on-primary rounded font-label-md text-label-md font-bold hover:bg-primary-fixed transition-colors shadow-[0_0_15px_rgba(174,198,255,0.2)]">
+                        New Test
+                    </button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, circular avatar portrait of a professional software engineer in a well-lit modern office environment. Deep blacks, crisp whites, and cool blue technological accents. High contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVfg5HTC4S70Qa7FS0TOb-gtB3-LYvSPe-eYdg72f1Wn3iWZxNO0Y9_p46QAG-KzrQzAiNGffNoNrox001SXLak0DvH-rjiDrIiyOrWkVDP897cjtu44D1XjiG7KC4uDMWMU7qzecmvuWpRJ4heY3RcV1NYAdQMc32RwS__NzVYAPc_msrNcfUxvGOA-UTa2TOQyGW_w5Nc__zoowa8jB7wVfkY4D4GTXcKFU9Y2zwvYBHvIVJIwdif9JBIVTgiAeig50XS75yTeVm"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8 flex gap-6 layout-container">
+<!-- Left Side: Stepper and Forms -->
+<div class="flex-1 flex flex-col max-w-4xl">
+<!-- Stepper -->
+<div class="mb-8 px-2">
+<div class="flex items-center justify-between relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-outline-variant z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center gap-2 step-completed bg-background px-2">
+<div class="w-8 h-8 rounded-full flex items-center justify-center step-icon font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface whitespace-nowrap">Import API</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center gap-2 step-active bg-background px-2">
+<div class="w-8 h-8 rounded-full flex items-center justify-center step-icon font-label-md text-label-md">2</div>
+<span class="font-label-md text-label-md text-primary font-bold whitespace-nowrap">Configure Load</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center gap-2 step-inactive bg-background px-2">
+<div class="w-8 h-8 rounded-full flex items-center justify-center step-icon font-label-md text-label-md">3</div>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">AI Traffic Gen</span>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center gap-2 step-inactive bg-background px-2">
+<div class="w-8 h-8 rounded-full flex items-center justify-center step-icon font-label-md text-label-md">4</div>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">Review</span>
+</div>
+</div>
+</div>
+<!-- Step Content Container -->
+<div class="glass-panel rounded-xl p-6 md:p-8 flex-1 flex flex-col gap-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Load Configuration</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Define the parameters and execution profile for your target infrastructure.</p>
+</div>
+<!-- Load Type Selector Grid -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-4">Execution Profile</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="type-card selected cursor-pointer p-4 rounded-lg border border-primary bg-[rgba(174,198,255,0.05)] flex flex-col gap-3 transition-all">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary">cloud_upload</span>
+<div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(174,198,255,0.8)]"></div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Load Test</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant leading-tight">Assess performance under expected concurrent user volumes.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="type-card cursor-pointer p-4 rounded-lg border border-outline-variant bg-surface-container-low flex flex-col gap-3 transition-all">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-secondary">flash_on</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Spike Test</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant leading-tight">Evaluate system response to sudden, extreme traffic bursts.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="type-card cursor-pointer p-4 rounded-lg border border-outline-variant bg-surface-container-low flex flex-col gap-3 transition-all">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-error">warning</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Stress Test</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant leading-tight">Push limits to identify breaking points and recovery behaviors.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Inputs -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-outline-variant">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Virtual Users (VUs)</label>
+<input class="input-field w-full px-3 py-2 rounded font-code-sm text-code-sm" type="number" value="1000"/>
+<span class="text-[11px] text-on-surface-variant mt-1 block">Max 10,000 for current plan</span>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Ramp-up Time (s)</label>
+<input class="input-field w-full px-3 py-2 rounded font-code-sm text-code-sm" type="number" value="60"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Duration (m)</label>
+<input class="input-field w-full px-3 py-2 rounded font-code-sm text-code-sm" type="number" value="15"/>
+</div>
+</div>
+<!-- AI Toggle -->
+<div class="mt-4 p-4 rounded-lg bg-surface-container border border-outline-variant flex items-start gap-4">
+<div class="mt-1">
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary shadow-[0_0_10px_rgba(174,198,255,0.1)]"></div>
+</label>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface flex items-center gap-2">
+                                Enable AI-Enhanced Traffic Generation
+                                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-container text-on-primary-container uppercase tracking-wider">Beta</span>
+</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">
+                                Utilizes ML models to simulate realistic, chaotic edge cases and non-linear user journeys based on historical access patterns.
+                            </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="mt-auto pt-6 flex justify-between items-center border-t border-outline-variant">
+<button class="px-4 py-2 border border-outline-variant text-on-surface rounded font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+                            Back
+                        </button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md font-bold hover:bg-primary-fixed transition-colors shadow-[0_0_15px_rgba(174,198,255,0.2)] flex items-center gap-2">
+                            Next Step
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Side: Configuration Summary Widget -->
+<div class="hidden xl:flex w-80 flex-col gap-4">
+<div class="glass-panel rounded-xl p-5 border border-outline-variant sticky top-0">
+<div class="flex items-center gap-2 mb-4 pb-4 border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Test Summary</h3>
+</div>
+<div class="flex flex-col gap-3 font-code-sm text-code-sm">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Profile:</span>
+<span class="text-on-surface font-medium">Load Test</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Target VUs:</span>
+<span class="text-on-surface font-medium">1,000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Duration:</span>
+<span class="text-on-surface font-medium">15m 00s</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Region:</span>
+<span class="text-on-surface font-medium">us-east-1</span>
+</div>
+<div class="my-2 h-[1px] bg-outline-variant w-full"></div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Estimated Cost:</span>
+<span class="text-primary font-bold text-sm">~ $4.25</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Compute Units:</span>
+<span class="text-on-surface font-medium">12.5 CU</span>
+</div>
+</div>
+<div class="mt-6 p-3 rounded bg-surface-container-highest border border-outline-variant text-xs text-on-surface-variant leading-relaxed">
+<span class="material-symbols-outlined text-[14px] inline-block align-middle mr-1 text-secondary">info</span>
+                        Resource provisioning will take approximately 45 seconds before the test initiates.
+                    </div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
